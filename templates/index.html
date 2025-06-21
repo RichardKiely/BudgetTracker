@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Budget Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Budget Overview</h1>
+  <p><strong>Balance:</strong> ${{ balance }}</p>
+  <p>Income: ${{ income }} | Expenses: ${{ expenses }}</p>
+
+  <form method="get" action="/">
+    <label>Filter by Category:</label>
+    <select name="category" onchange="this.form.submit()">
+      <option value="all" {% if selected_category == 'all' %}selected{% endif %}>All</option>
+      {% for cat in categories %}
+        <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+      {% endfor %}
+    </select>
+  </form>
+
+  <a href="/add">Add Transaction</a>
+
+  <h2>Transaction History</h2>
+  <ul>
+    {% for t in transactions %}
+      <li>{{ t[1] }} - {{ t[2] }} - ${{ t[3] }} ({{ t[4] }}, {{ t[5] }})</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
